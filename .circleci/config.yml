@@ -1,71 +1,26 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+# See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
-
+orbs:
+  node: circleci/node@5.1.0
+# Define a job to be invoked later in a workflow.
+# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  checkout_and_unit_test:
-    machine: true
+  checkoutEtTests:
+    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
+    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+    docker:
+      - image: cimg/node:17.2.0
+    # Add steps to the job
+    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
-      - run: echo "Hello World!"
-  deploy_backend:
-    machine: true
-    steps:
-      - run: ls -al
-  integration_tests_backend:
-    machine: true
-    steps:
-      - run: ls -al
-  deploy_staging:
-    machine: true
-    steps:
-      - run: ls -al
-  acceptance_tests_1:
-    machine: true
-    steps:
-      - run: ls -al
-  acceptance_tests_2:
-    machine: true
-    steps:
-      - run: ls -al
-  acceptance_tests_3:
-    machine: true
-    steps:
-      - run: ls -al
-  acceptance_tests_4:
-    machine: true
-    steps:
-      - run: ls -al
-  deploy_production:
-    machine: true
-    steps:
-      - run: ls -al
+      - run: git clone https://github.com/ulrlaro/Labo_2_backend
+      - run: cd Labo_2_backend && npm install
+      - run: cd Labo_2_backend && npm run test 
 
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  monWorkflow:
+  workflow:
     jobs:
-      - checkout_and_unit_test
-      - deploy_backend:
-          requires:
-            - checkout_and_unit_test
-      - integration_tests_backend:
-          requires:
-            - deploy_backend
-      - deploy_staging:
-          requires:
-            - integration_tests_backend
-      - acceptance_tests_1:
-          requires:
-            - deploy_staging
-      - acceptance_tests_2:
-          requires:
-            - deploy_staging
-      - acceptance_tests_3:
-          requires:
-            - deploy_staging
-      - acceptance_tests_4:
-          requires:
-            - deploy_staging
-      - deploy_production:
-          requires:
-            - acceptance_tests_1
-            - acceptance_tests_2
-            - acceptance_tests_3
-            - acceptance_tests_4
+      - checkoutEtTests
