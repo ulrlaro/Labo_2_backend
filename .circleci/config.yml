@@ -69,4 +69,3 @@ workflows:
             - acceptance_tests_2
             - acceptance_tests_3
             - acceptance_tests_4
-         
