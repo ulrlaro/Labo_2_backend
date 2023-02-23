@@ -16,7 +16,7 @@ jobs:
     steps:
       - run: git clone https://github.com/ulrlaro/Labo_2_backend
       - run: cd Labo_2_backend && sudo npm install
-      - run: cd Labo_2_backend && run domain.test
+      - run: cd Labo_2_backend && node domain.test.js
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
