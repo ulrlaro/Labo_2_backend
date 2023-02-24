@@ -17,6 +17,24 @@ jobs:
       - run: git clone https://github.com/ulrlaro/Labo_2_backend
       - run: cd Labo_2_backend && npm install
       - run: cd Labo_2_backend && npm run test 
+  integrationFrontend:
+    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
+    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+    docker:
+      - image: cimg/node:17.2.0
+    # Add steps to the job
+    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+    steps:
+      - run: git clone https://github.com/ulrlaro/Labo_2_backend
+      - run: git clone https://github.com/ulrlaro/Labo_2_frontend
+      - run: cd Labo_2_frontend && npm install
+      - run: cd Labo_2_frontend && npm run build 
+      - run: cd Labo_2_backend && mkdir public
+      - run: cd Labo_2_frontend && cp -rT build Labo_2_backend/public
+      - persist_to_workspace:
+          root: .
+          paths:
+            - Labo_2_backend
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -24,3 +42,6 @@ workflows:
   workflow:
     jobs:
       - checkoutEtTests
+      - integrationFrontend:
+          requires:
+            - checkoutEtTests
