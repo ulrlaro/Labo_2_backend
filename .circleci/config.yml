@@ -30,6 +30,7 @@ jobs:
       - run: cd Labo_2_frontend && npm install
       - run: cd Labo_2_frontend && npm run build 
       - run: cd Labo_2_backend && mkdir public
+      - run: cd Labo_2_backend && ls -al
       - run: cd Labo_2_frontend && cp -rT build Labo_2_backend/public
       - persist_to_workspace:
           root: .
