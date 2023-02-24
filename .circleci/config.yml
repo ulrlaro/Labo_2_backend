@@ -45,3 +45,6 @@ workflows:
       - integrationFrontend:
           requires:
             - checkoutEtTests
+      - deploiement:
+          requires:
+            - integrationFrontend
